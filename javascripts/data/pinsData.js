@@ -4,12 +4,29 @@ const loadPinsForBoard = (boardId) => {
         .done((data)=>{
             const pinsForBoards=
             data.pins.filter(pin=>pin.board_id == boardId)
-            console.log(pinsForBoards);
+            resolve(pinsForBoards);
         })
         .fail((error)=>{
-            console.error(error);
+            reject(error);
         })
     })
 }
 
-export {loadPinsForBoard};
+const loadPinsForBoards = (boards) => {
+    return new Promise((resolve,reject)=>{
+        $.get('../db/pins.json')
+        .done((data)=>{
+            const boardsWithPins = boards.map(board => {
+                const matchingPins = data.pins.filter(pin => pin.board_id === board.id);
+                board.pins = matchingPins;
+                return board;
+            })
+            resolve(boardsWithPins);
+        })
+        .fail((error)=>{
+            reject('error loadPinsOnBoards',error);
+        })
+    })
+}
+
+export {loadPinsForBoards,loadPinsForBoard};

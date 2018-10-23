@@ -1,5 +1,5 @@
 import{loadBoards} from '../data/boardsData.js'
-
+import {initalPinView} from './pins.js'
 
 
 const bindEvents = () => {
@@ -7,7 +7,7 @@ const bindEvents = () => {
        const clickedBoardId = $(e.target).closest('.board-card').attr('id');
        $('#boards-page').hide();
        $('#pins-page').show();
-       console.log(clickedBoardId);
+       initalPinView(clickedBoardId);
     })
 }
 
